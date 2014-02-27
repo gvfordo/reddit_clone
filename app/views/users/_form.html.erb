@@ -1,0 +1,19 @@
+<% form_action = action == :new ? users_url : user_url(user) %>
+<% button_text = action == :new ? "Sign Up" : "Update Account" %>
+<% form_method = action == :new ? "post" : "put" %>
+
+<form action="<%= form_action %>" method="post" accept-charset="utf-8">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+  <input type="hidden" name="_method" value="<%= form_method %>">
+
+  <label for="user-username">Username</label><br>
+  <input type="text" name="user[username]" value="<%= user.username %>" id="user-username">
+  <br>
+  <label for="user-email">Email</label><br>
+  <input type="text" name="user[email]" value="<%= user.email %>" id="user-email">
+  <br>
+  <label for="user-password">Password</label><br>
+  <input type="password" name="user[password]" value="" id="user-password">
+  <br>
+  <p><input type="submit" value="<%= button_text %>"></p>
+</form>
