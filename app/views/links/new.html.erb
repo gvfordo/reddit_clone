@@ -1,0 +1,26 @@
+<h1> Add a new link </h1>
+
+<form action="<%= user_links_url %>" method="post" accept-charset="utf-8">
+  <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+
+  <label for="link-title">Title</label><br>
+  <input type="text" name="link[title]" value="<%= @link.title %>" id="link-title">
+  <br>
+  <label for="link-url">URL</label><br>
+  <input type="text" name="link[url]" value="<%= @link.url %>" id="link-url">
+  <br>
+  <label for="link-text">Text</label>
+  <textarea type="text" name="link[text]" value="<%= @link.link_text %>" id="link-text"></textarea>
+
+  <h3> Select subs to share with <h3>
+
+    <% @subs.each do |sub| %>
+    <label>
+      <input type="checkbox" name="link[sub_ids][]" value="<%= sub.id %>" >
+      <%= sub.name %>
+    </label>
+
+    <% end %>
+
+  <p><input type="submit" value="Add Link"></p>
+</form>

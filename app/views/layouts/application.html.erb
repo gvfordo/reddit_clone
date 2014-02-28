@@ -8,6 +8,16 @@
 </head>
 <body>
 
+<% if flash[:errors]%>
+  <% flash[:errors].each do |error| %>
+    <%= error %>
+  <% end%>
+ <% end%>
+
+<% if logged_in? %>
+  <p>Welcome back <%= current_user.username %></p>
+  <%= button_to "Sign Out", session_url, :method => :delete %>
+<% end %>
 <%= yield %>
 
 </body>

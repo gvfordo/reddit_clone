@@ -20,5 +20,32 @@ FactoryGirl.define do
     email Faker::Internet.email
     session_token "awneoflhjs9d8fa"
     password_digest "welfjkasf98seflkw3nflksdhiosdnlkfgwenj"
+
+    factory :user_with_subs do
+      username Faker::Internet.user_name
+      email Faker::Internet.email
+      session_token "awneoflhjs9d8fa"
+      password_digest "welfjkasf98seflkw3nflksdhiosdnlkfgwenj"
+
+      after(:create) do |user|
+        create_list(:sub, 5, mod: user)
+      end
+    end
+
+    factory :user_with_links do
+      username Faker::Internet.user_name
+      email Faker::Internet.email
+      session_token "awneoflhjs9d8fa"
+      password_digest "welfjkasf98seflkw3nflksdhiosdnlkfgwenj"
+
+      after(:create) do |user|
+        create_list(:link, 5, user: user)
+      end
+    end
   end
+
+
 end
+
+
+

@@ -1,0 +1,11 @@
+<h1><%= @sub.name %></h1>
+<br>
+<h2>Links</h2>
+
+<ul>
+  <% if @sub.links %>
+    <% @sub.links.each do |link| %>
+      <li><%= link.title %></li>
+    <% end %>
+  <% end %>
+</ul>

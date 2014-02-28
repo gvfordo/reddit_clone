@@ -92,7 +92,7 @@ describe User do
        expect(User.first.session_token).to_not be_nil
      end
 
-     describe "generate session_token" do
+     describe "User::generate session_token" do
 
        it "should generate a random string" do
          token = User.generate_session_token
@@ -102,6 +102,71 @@ describe User do
        end
      end
 
+     describe "user#reset_session_token!" do
+
+       it "should reset the user's session_token" do
+         token = u.session_token
+         token2 = u.reset_session_token!
+         expect(token).to_not eq token2
+         expect(token2).to_not be_nil
+       end
+     end
+
    end
+
+   describe "User::find_by_credentials" do
+     let(:user_params) { { username: "user", email: "user@example.com", password: "foobar" } }
+     subject(:u) { FactoryGirl.create(:user, user_params) }
+
+     it "finds a user with a username/password match" do
+       u.save
+       user_params = { user: "user", email: nil, password: "foobar" }
+       user = User.find_by_credentials(user_params)
+       expect(user.username).to eq u.username
+     end
+
+     it "finds a user with an email/password match" do
+       u.save
+       user_params = { username: nil, user: "user@example.com", password: "foobar" }
+       user = User.find_by_credentials(user_params)
+       expect(user.username).to eq u.username
+     end
+
+     it "doesn't find a user without an email/password match " do
+       u.save
+       user_params = { username: "user", email: "user@example.com", password: "wrong_foobar" }
+       user = User.find_by_credentials(user_params)
+       expect(user).to be_nil
+     end
+
+   end
+
+   describe "user with subs" do
+
+     it "should not have any subs" do
+       user = FactoryGirl.create(:user)
+       expect(user.subs.length).to eq 0
+     end
+
+     it "can have many subs" do
+       user = FactoryGirl.create(:user_with_subs)
+       expect(user.subs.length).to eq 5
+     end
+   end
+
+   describe "user with links" do
+
+     it "shoud have many links" do
+       user = FactoryGirl.create(:user_with_links)
+       expect(user.links.length).to eq 5
+     end
+
+     it "should not have any links" do
+       user = FactoryGirl.create(:user)
+       expect(user.links.length).to eq 0
+     end
+   end
+
+
 
 end
